@@ -14,8 +14,12 @@
     <div id="container"></div>
 
     <script type="text/babel">
-        
-        var Comment = React.createClass ({
+        var notes = ["This is a simple Note", "This is another cool note", 
+        "This is a note to remind myself not to write repetitive notes", 
+        "Buy eggs", 
+        "Remember: Coffee solves everything"];
+
+        var Note = React.createClass ({
             getInitialState: function () {
                 return {
                         editing: false,
@@ -70,7 +74,11 @@
 
         ReactDOM.render(
             <div className="board">
-                <Comment>This is a Comment</Comment>
+                <Note>{notes[0]}</Note>
+                <Note>{notes[1]}</Note>
+                <Note>{notes[2]}</Note>
+                <Note>{notes[3]}</Note>
+                <Note>{notes[4]}</Note>
             </div>,
             document.getElementById('container')
         );
