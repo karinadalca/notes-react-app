@@ -17,7 +17,10 @@
         
         var Comment = React.createClass ({
             getInitialState: function () {
-                return {editing: false};
+                return {
+                        editing: false,
+                        note: this.props.children
+                        };
             },
 
             edit: function () {
@@ -32,10 +35,14 @@
                 this.setState({editing: false});
             },
 
+            handleNote: function (event) {
+                this.setState({note: event.target.value});
+            },
+
             renderNormal: function () {
                 return (
                     <div className="commentContainer">
-                        <div className="commentText">{this.props.children}</div>
+                        <div className="commentText">{this.state.note}</div>
                         <button onClick={this.edit} className="button-primary">Edit</button>
                         <button onClick={this.remove} className="button-danger">Remove</button>
                     </div>
@@ -45,7 +52,7 @@
             renderEditing: function () {
                 return (
                     <div className="commentContainer">
-                        <textarea defaultValue={this.props.children}></textarea>
+                        <textarea defaultValue={this.state.note} onChange={this.handleNote}></textarea>
                         <button onClick={this.save} className="button-success">Save</button>
                         <button onClick={this.remove} className="button-danger">Remove</button>
                     </div>
