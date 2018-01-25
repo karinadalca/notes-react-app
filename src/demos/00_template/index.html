@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>React - Notes App</title>
-    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../css/main.css">
     <script src="../../js/react.min.js"></script>
     <script src="../../js/react-dom.min.js"></script>
     <script src="../../js/browser.min.js"></script>
@@ -15,20 +15,30 @@
 
     <script type="text/babel">
         
-        const Comment = React.createClass ({
+        var Comment = React.createClass ({
+            edit: function () {
+                alert("Editing Comment")
+            },
+
+            remove: function () {
+                alert("Removing Comment")
+            },
+
             render: function () {
                 return (
                     <div className="commentContainer">
-                        <div className="commentText">text of whatever</div>
-                        <button className="button-primary">Edit</button>
-                        <button className="button-danger">Remove</button>
+                        <div className="commentText">{this.props.comment}</div>
+                        <button onClick={this.edit} className="button-primary">Edit</button>
+                        <button onClick={this.remove} className="button-danger">Remove</button>
                     </div>
                 );
             }
         });
 
         ReactDOM.render(
-            <Comment />,
+            <div className="board">
+                <Comment comment="This is a Comment"/>
+            </div>,
             document.getElementById('container')
         );
     </script>
