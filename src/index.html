@@ -14,10 +14,31 @@
     <div id="container"></div>
 
     <script type="text/babel">
-        var notes = ["This is a simple Note", "This is another cool note", 
-        "This is a note to remind myself not to write repetitive notes", 
-        "Buy eggs", 
-        "Remember: Coffee solves everything"];
+
+        var Notebook = React.createClass ({
+            getInitialState: function () {
+                return {
+                    notes: ["This is a simple Note", "This is another cool note", 
+                            "This is a note to remind myself not to write repetitive notes", 
+                            "Buy eggs", 
+                            "Remember: Coffee solves everything"]
+                }
+            },
+           
+            render: function () {
+                return (
+                    <div className="board">
+                        {
+                            this.state.notes.map(
+                                function (currentNote, i) {
+                                    return (<Note>{currentNote}</Note>);
+                                }
+                            )
+                        }
+                    </div>
+                )
+            }
+        });
 
         var Note = React.createClass ({
             getInitialState: function () {
@@ -36,11 +57,9 @@
             },
 
             save: function () {
-                this.setState({editing: false});
-            },
-
-            handleNote: function (event) {
-                this.setState({note: event.target.value});
+                this.setState({editing: false,
+                               note: this.refs.newText.value
+                });
             },
 
             renderNormal: function () {
@@ -56,7 +75,7 @@
             renderEditing: function () {
                 return (
                     <div className="commentContainer">
-                        <textarea defaultValue={this.state.note} onChange={this.handleNote}></textarea>
+                        <textarea defaultValue={this.state.note} ref="newText"></textarea>
                         <button onClick={this.save} className="button-success">Save</button>
                         <button onClick={this.remove} className="button-danger">Remove</button>
                     </div>
@@ -73,13 +92,7 @@
         });
 
         ReactDOM.render(
-            <div className="board">
-                <Note>{notes[0]}</Note>
-                <Note>{notes[1]}</Note>
-                <Note>{notes[2]}</Note>
-                <Note>{notes[3]}</Note>
-                <Note>{notes[4]}</Note>
-            </div>,
+            <Notebook />,
             document.getElementById('container')
         );
     </script>
