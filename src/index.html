@@ -25,6 +25,12 @@
                 }
             },
 
+            addNote: function (newNote) {
+                var notesArr = this.state.notes;
+                notesArr.push(newNote);
+                this.setState({notes: notesArr});
+            },
+
             removeNote: function (index) {
                 var notesArr = this.state.notes;
                 notesArr.splice(index,1);
@@ -43,10 +49,9 @@
 
             render: function () {
                 return (
-                    <div className="board">
-                        {
-                            this.state.notes.map(this.eachNote)
-                        }
+                    <div>
+                        <button className="button-info create" onClick={this.addNote.bind(null, "New Note")}>New</button>
+                        <div className="board">{this.state.notes.map(this.eachNote)}</div>
                     </div>
                 )
             }
@@ -54,10 +59,7 @@
 
         var Note = React.createClass ({
             getInitialState: function () {
-                return {
-                        editing: false,
-                        note: this.props.children
-                        };
+                return {editing: false};
             },
 
             edit: function () {
@@ -65,21 +67,19 @@
             },
 
             remove: function () {
-                alert("Removing Comment")
+                //alert("Removing Comment")
                 this.props.removeNote(this.props.index);
             },
 
             save: function () {
-                this.setState({editing: false,
-                               note: this.refs.newText.value
-                });
+                this.setState({editing: false});
                 this.props.updateNote(this.props.index, this.refs.newText.value );
             },
 
             renderNormal: function () {
                 return (
                     <div className="commentContainer">
-                        <div className="commentText">{this.state.note}</div>
+                        <div className="commentText">{this.props.children}</div>
                         <button onClick={this.edit} className="button-primary">Edit</button>
                         <button onClick={this.remove} className="button-danger">Remove</button>
                     </div>
@@ -89,7 +89,7 @@
             renderEditing: function () {
                 return (
                     <div className="commentContainer">
-                        <textarea defaultValue={this.state.note} ref="newText"></textarea>
+                        <textarea defaultValue={this.props.children} ref="newText"></textarea>
                         <button onClick={this.save} className="button-success">Save</button>
                         <button onClick={this.remove} className="button-danger">Remove</button>
                     </div>
@@ -107,7 +107,7 @@
 
         ReactDOM.render(
             <Notebook />,
-            document.getElementById('container')
+            document.getElementById("container")
         );
     </script>
 
