@@ -24,16 +24,28 @@
                             "Remember: Coffee solves everything"]
                 }
             },
-           
+
+            removeNote: function (index) {
+                var notesArr = this.state.notes;
+                notesArr.splice(index,1);
+                this.setState({notes: notesArr});
+            },
+
+            updateNote: function (index, newNote) {
+                var notesArr = this.state.notes;
+                notesArr[index] = newNote;
+                this.setState({notes: notesArr});
+            },
+
+            eachNote: function (currentNote, i) {
+                return (<Note key={i} index={i} removeNote={this.removeNote} updateNote={this.updateNote}>{currentNote}</Note>);
+            },
+
             render: function () {
                 return (
                     <div className="board">
                         {
-                            this.state.notes.map(
-                                function (currentNote, i) {
-                                    return (<Note>{currentNote}</Note>);
-                                }
-                            )
+                            this.state.notes.map(this.eachNote)
                         }
                     </div>
                 )
@@ -54,12 +66,14 @@
 
             remove: function () {
                 alert("Removing Comment")
+                this.props.removeNote(this.props.index);
             },
 
             save: function () {
                 this.setState({editing: false,
                                note: this.refs.newText.value
                 });
+                this.props.updateNote(this.props.index, this.refs.newText.value );
             },
 
             renderNormal: function () {
